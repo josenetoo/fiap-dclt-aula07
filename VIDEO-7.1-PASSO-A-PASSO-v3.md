@@ -415,7 +415,7 @@ tests/test_calculadora.py
 
 ---
 
-## 🚀 Parte 5: Criar Workflow (FAZER JUNTOS NA AULA)
+## 🚀 Parte 5: Criar Workflow
 
 > ⚠️ **Esta parte faremos juntos durante a videoaula!**
 
@@ -563,6 +563,58 @@ Sem IA:  100 testes × 30 min = 30 min por PR
 Com IA:  10 testes × 3 min = 3 min por PR
 
 Economia: 90% do tempo! 🚀
+```
+
+---
+
+## 🌍 Aplicação no Mundo Real
+
+### O que fizemos no curso (demonstração):
+```
+calculadora.py modificado → IA sugere test_calculadora.py
+```
+
+### Como funciona em produção:
+```
+src/payment/checkout.py modificado → IA sugere:
+  - tests/unit/test_checkout.py
+  - tests/integration/test_payment_flow.py
+  - tests/e2e/test_purchase.py
+```
+
+### Exemplos por Indústria
+
+| Empresa | Cenário Real |
+|---------|--------------|
+| **E-commerce** | Mudou código de carrinho → Roda só testes de carrinho (não de login, perfil, etc.) |
+| **Fintech** | Mudou cálculo de juros → Roda testes financeiros (não de UI) |
+| **SaaS** | Mudou API de usuários → Roda testes de API (não de billing) |
+| **Streaming** | Mudou player de vídeo → Roda testes de player (não de recomendação) |
+
+### Ferramentas Usadas em Produção
+
+| Curso | Produção |
+|-------|----------|
+| `select_tests.py` (script local) | Bazel, Buck, Nx (build systems inteligentes) |
+| Ollama (LLM local) | Modelos internos fine-tuned |
+| Gemini API (grátis) | GPT-4, Claude, ou APIs enterprise |
+| GitHub Actions | Jenkins, CircleCI, GitLab CI, Azure DevOps |
+| 100 testes | 50.000+ testes em monorepos grandes |
+
+### Empresas que Usam Técnicas Similares
+
+- **Google**: Usa ML para prever quais testes vão falhar
+- **Meta**: Test Impact Analysis em monorepo gigante
+- **Netflix**: Seleção inteligente de testes por microserviço
+- **Microsoft**: Predictive Test Selection no Azure DevOps
+
+### Economia Real
+
+```
+Empresa com 50.000 testes:
+├── Sem IA: 4 horas por PR (roda tudo)
+├── Com IA: 15 minutos por PR (roda ~500 relevantes)
+└── Economia: 93% do tempo + custo de CI
 ```
 
 ---

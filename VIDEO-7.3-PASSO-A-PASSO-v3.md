@@ -477,7 +477,7 @@ graph TB
 
 ---
 
-## 🚀 Parte 5: Criar Workflow (FAZER JUNTOS NA AULA)
+## 🚀 Parte 5: Criar Workflow
 
 > ⚠️ **Esta parte faremos juntos durante a videoaula!**
 
@@ -647,11 +647,114 @@ Redução de 97% no MTTR! 🚀
 
 ---
 
+## 🌍 Aplicação no Mundo Real
+
+### O que fizemos no curso (demonstração):
+```
+high_memory.json → IA classifica → clear_memory.py (simulado com prints)
+```
+
+### Como funciona em produção:
+```
+Prometheus Alert (Memory > 90%) → IA classifica → Runbook real:
+  - kubectl scale deployment app --replicas=4
+  - aws autoscaling set-desired-capacity --desired 10
+  - redis-cli FLUSHALL
+  - systemctl restart app-service
+```
+
+### Exemplos por Indústria
+
+| Empresa | Cenário Real |
+|---------|--------------|
+| **Cloud** | CPU alta → Auto-scaling automático (AWS/GCP/Azure) |
+| **Kubernetes** | Pod crashloop → Rollback automático para versão anterior |
+| **Database** | Conexões esgotadas → Reinicia pool + alerta DBA |
+| **E-commerce** | Black Friday → Escala preventiva baseada em previsão |
+
+### Ferramentas Usadas em Produção
+
+| Curso | Produção |
+|-------|----------|
+| `high_memory.json` (arquivo) | Prometheus Alert, PagerDuty Webhook, Datadog Monitor |
+| `clear_memory.py` (print simulado) | Scripts com `kubectl`, `aws cli`, `terraform`, Ansible |
+| `incident_handler.py` (local) | PagerDuty Runbook Automation, Rundeck, StackStorm |
+| GitHub Actions (manual) | Webhook automático do sistema de monitoramento |
+| Ollama/Gemini (classificação) | Modelos treinados com histórico de incidentes |
+
+### Ferramentas de Automação de Incidentes
+
+- **PagerDuty Runbook Automation**: Executa runbooks automaticamente
+- **Rundeck**: Orquestração de operações
+- **StackStorm**: Event-driven automation (IFTTT para DevOps)
+- **AWS Systems Manager**: Runbooks para infraestrutura AWS
+- **Ansible Tower**: Automação de configuração e resposta
+
+### Economia Real
+
+```
+Empresa com 100 incidentes/mês:
+├── Sem automação: 100 × 35min = 58h de engenheiro/mês
+├── Com automação: 100 × 1min = 1.6h de engenheiro/mês
+└── Economia: 56h/mês = ~$8.400/mês (engenheiro $150/h)
+```
+
+### Arquitetura Real de Incident Response
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        PRODUÇÃO                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐                  │
+│  │ App 1    │    │ App 2    │    │ App N    │                  │
+│  └────┬─────┘    └────┬─────┘    └────┬─────┘                  │
+│       │               │               │                         │
+│       └───────────────┼───────────────┘                         │
+│                       ▼                                          │
+│              ┌────────────────┐                                  │
+│              │  Prometheus    │  (Métricas)                     │
+│              └────────┬───────┘                                  │
+│                       ▼                                          │
+│              ┌────────────────┐                                  │
+│              │  AlertManager  │  (Regras de alerta)             │
+│              └────────┬───────┘                                  │
+│                       ▼                                          │
+│              ┌────────────────┐                                  │
+│              │   PagerDuty    │  (Orquestração)                 │
+│              └────────┬───────┘                                  │
+│                       ▼                                          │
+│              ┌────────────────┐                                  │
+│              │  IA Classifier │  (Classifica incidente)         │
+│              └────────┬───────┘                                  │
+│                       ▼                                          │
+│    ┌─────────────┬────────────┬─────────────┐                   │
+│    │ Runbook 1   │ Runbook 2  │ Runbook N   │                   │
+│    │ (Scale)     │ (Restart)  │ (Rollback)  │                   │
+│    └─────────────┴────────────┴─────────────┘                   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Níveis de Automação
+
+| Nível | Descrição | Exemplo |
+|-------|-----------|---------|
+| **L0** | Totalmente automático | Memory alta → Scale automático |
+| **L1** | Semi-automático | IA sugere ação → Humano aprova |
+| **L2** | Assistido | IA prepara runbook → Humano executa |
+| **L3** | Manual | Humano investiga e resolve |
+
+> 💡 **Meta**: Mover o máximo de incidentes para L0/L1, deixando L2/L3 para casos complexos.
+
+---
+
 ## 🔗 Links Úteis
 
 - **Ollama**: https://ollama.com
 - **Runbook Automation**: https://www.pagerduty.com/resources/learn/what-is-a-runbook/
 - **Incident Response**: https://sre.google/sre-book/managing-incidents/
+- **StackStorm**: https://stackstorm.com/
 
 ---
 

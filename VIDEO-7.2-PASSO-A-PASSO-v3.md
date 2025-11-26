@@ -327,7 +327,7 @@ python analyze_logs_ci.py
 
 ---
 
-## 🚀 Parte 4: Criar Workflow (FAZER JUNTOS NA AULA)
+## 🚀 Parte 4: Criar Workflow
 
 > ⚠️ **Esta parte faremos juntos durante a videoaula!**
 
@@ -478,6 +478,83 @@ Antes: Incidente → 2h para descobrir causa
 Depois: IA detecta → Alerta em 10 segundos
 
 MTTR reduzido em 90%! 🚀
+```
+
+---
+
+## 🌍 Aplicação no Mundo Real
+
+### O que fizemos no curso (demonstração):
+```
+logs/app.log (25 linhas) → IA detecta "Database timeout"
+```
+
+### Como funciona em produção:
+```
+CloudWatch/Datadog/ELK (milhões de linhas/dia) → IA detecta:
+  - Padrão de erro crescente (5 erros → 500 erros em 5 min)
+  - Correlação entre serviços (API falha → DB sobrecarregado)
+  - Anomalias de latência (p99 subiu de 100ms para 2s)
+```
+
+### Exemplos por Indústria
+
+| Empresa | Cenário Real |
+|---------|--------------|
+| **Banco** | IA detecta 500 erros de timeout em 5 min → Alerta antes do cliente reclamar |
+| **Streaming** | IA detecta latência crescente na CDN → Escala antes de travar |
+| **E-commerce** | IA detecta erros de pagamento → Alerta equipe de fraude |
+| **Healthcare** | IA detecta falhas em sistema crítico → Escala para equipe de plantão |
+
+### Ferramentas Usadas em Produção
+
+| Curso | Produção |
+|-------|----------|
+| `logs/app.log` (arquivo local) | CloudWatch Logs, Datadog, Splunk, ELK Stack |
+| `analyze_logs.py` (script) | Datadog AI, Splunk ITSI, Dynatrace Davis AI |
+| Ollama (LLM local) | Modelos treinados com logs históricos |
+| Gemini API (grátis) | GPT-4, Claude, ou APIs enterprise |
+| GitHub Actions (cron) | Agentes de monitoramento 24/7 |
+
+### Ferramentas de AIOps no Mercado
+
+- **Datadog AI**: Detecta anomalias automaticamente
+- **Splunk ITSI**: Machine Learning para operações
+- **Dynatrace Davis AI**: IA causal para root cause analysis
+- **New Relic AIOps**: Correlação automática de incidentes
+- **PagerDuty AIOps**: Redução de ruído em alertas
+
+### Economia Real
+
+```
+Empresa com 10TB de logs/dia:
+├── Sem IA: Engenheiro leva 2h para encontrar causa raiz
+├── Com IA: Alerta em 10 segundos com diagnóstico
+└── Economia: MTTR de 2h → 10min (92% redução)
+```
+
+### Arquitetura Real
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  App 1      │     │  App 2      │     │  App N      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                   │                   │
+       └───────────────────┼───────────────────┘
+                           ▼
+                  ┌─────────────────┐
+                  │  Log Aggregator │  (Datadog, ELK, CloudWatch)
+                  └────────┬────────┘
+                           ▼
+                  ┌─────────────────┐
+                  │   IA/ML Engine  │  (Detecta anomalias)
+                  └────────┬────────┘
+                           ▼
+                  ┌─────────────────┐
+                  │  Alert Manager  │  (PagerDuty, OpsGenie)
+                  └────────┬────────┘
+                           ▼
+                     📱 Equipe
 ```
 
 ---
