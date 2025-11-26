@@ -1,0 +1,64 @@
+name: 🤖 AI Test Selection
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  smart-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Instalar dependências
+        run: |
+          cd aula07-ia-testes
+          pip install -r requirements.txt
+      
+      - name: 🤖 Selecionar testes com IA
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd aula07-ia-testes
+          python select_tests_ci.py
+      
+      - name: 🧪 Rodar testes selecionados
+        id: tests
+        run: |
+          cd aula07-ia-testes
+          if [ -s suggested_tests.txt ]; then
+            pytest $(cat suggested_tests.txt) -v --tb=short 2>&1 | tee test-results.txt
+            echo "tests_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "Nenhum teste para rodar" > test-results.txt
+            echo "tests_run=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 📊 Gerar Sumário
+        if: always()
+        run: |
+          cd aula07-ia-testes
+          echo "## 🤖 AI Test Selection - Sumário" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Testes Selecionados pela IA:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat suggested_tests.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🧪 Resultado dos Testes:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat test-results.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
