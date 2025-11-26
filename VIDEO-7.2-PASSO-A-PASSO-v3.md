@@ -113,25 +113,32 @@ aula07-ia-logs/
 └── README.md
 ```
 
-### Passo 1: Entrar no projeto
+### Passo 1: Entrar no projeto e configurar ambiente Python
 
 ```bash
 cd aula07-ia-logs
+```
 
-# Criar ambiente virtual (recomendado)
+**Criar e ativar ambiente virtual:**
+
+**Mac/Linux:**
+```bash
 python3 -m venv venv
-
-# Ativar ambiente virtual
-# Mac/Linux:
 source venv/bin/activate
-# Windows:
-# venv\Scripts\activate
+```
 
-# Instalar dependências
+**Windows (PowerShell):**
+```powershell
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Instalar dependências:**
+```bash
 pip install -r requirements.txt
 ```
 
-> 💡 **Nota:** No macOS, use `python3` e `pip3` se não estiver usando ambiente virtual.
+> 💡 **Dica:** Quando o ambiente virtual está ativo, você verá `(venv)` no início do terminal.
 
 ### Passo 2: Ver os logs de exemplo
 
@@ -312,8 +319,8 @@ python analyze_logs_ci.py
 
 ### Diferença: Texto vs JSON
 
-| Ollama (Local) | Groq (CI) |
-|----------------|-----------|
+| Ollama (Local) | Gemini (CI) |
+|----------------|-------------|
 | Análise em texto livre | JSON estruturado |
 | Bom para humanos lerem | Bom para automação |
 | Detalhado | Objetivo |
@@ -327,7 +334,7 @@ python analyze_logs_ci.py
 O workflow será criado em `.github/workflows/ai-log-analysis.yml` e vai:
 
 1. Rodar periodicamente (cron) ou em push
-2. Analisar logs com Groq API
+2. Analisar logs com Gemini API
 3. Criar issue se encontrar problemas críticos
 
 ### Preview do Workflow
@@ -356,8 +363,10 @@ jobs:
       
       - name: 🤖 Analisar logs
         env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python analyze_logs_ci.py
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd aula07-ia-logs
+          python analyze_logs_ci.py
       
       - name: 🚨 Criar issue se crítico
         if: failure()
@@ -381,7 +390,7 @@ graph TB
     
     subgraph "☁️ CI (GitHub Actions)"
         E[Schedule/Push] --> F[analyze_logs_ci.py]
-        F --> G[Groq API]
+        F --> G[Gemini API]
         G --> H{Status?}
         H -->|Critical| I[Criar Issue]
         H -->|OK| J[Passar]

@@ -200,25 +200,32 @@ aula07-ia-testes/
 └── requirements.txt
 ```
 
-### Passo 4: Entrar no projeto e instalar dependências
+### Passo 4: Entrar no projeto e configurar ambiente Python
 
 ```bash
 cd aula07-ia-testes
+```
 
-# Criar ambiente virtual (recomendado)
+**Criar e ativar ambiente virtual:**
+
+**Mac/Linux:**
+```bash
 python3 -m venv venv
-
-# Ativar ambiente virtual
-# Mac/Linux:
 source venv/bin/activate
-# Windows:
-# venv\Scripts\activate
+```
 
-# Instalar dependências
+**Windows (PowerShell):**
+```powershell
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Instalar dependências:**
+```bash
 pip install -r requirements.txt
 ```
 
-> 💡 **Nota:** No macOS, use `python3` e `pip3` se não estiver usando ambiente virtual.
+> 💡 **Dica:** Quando o ambiente virtual está ativo, você verá `(venv)` no início do terminal. Sempre ative antes de rodar os scripts!
 
 ### Passo 5: Rodar os testes (modo tradicional)
 
@@ -415,8 +422,57 @@ tests/test_calculadora.py
 O workflow será criado em `.github/workflows/ai-tests.yml` e vai:
 
 1. Detectar arquivos modificados
-2. Chamar Groq API para sugerir testes
+2. Chamar Gemini API para sugerir testes
 3. Rodar apenas os testes sugeridos
+
+### Preview do Workflow
+
+```yaml
+name: 🤖 AI Test Selection
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smart-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Para git diff funcionar
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Instalar dependências
+        run: |
+          cd aula07-ia-testes
+          pip install -r requirements.txt
+      
+      - name: 🤖 Selecionar testes com IA
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd aula07-ia-testes
+          python select_tests_ci.py
+      
+      - name: 🧪 Rodar testes selecionados
+        run: |
+          cd aula07-ia-testes
+          if [ -s suggested_tests.txt ]; then
+            pytest $(cat suggested_tests.txt) -v
+          else
+            echo "Nenhum teste para rodar"
+          fi
+```
+
+> 💡 **Lembre-se:** Adicione `GEMINI_API_KEY` nos secrets do repositório!
+> 
+> **Alternativa:** Se preferir usar Groq, troque para `GROQ_API_KEY` e ajuste `USE_GEMINI = False` no script.
 
 ---
 
@@ -432,7 +488,7 @@ graph TB
     
     subgraph "☁️ CI (GitHub Actions)"
         E[Push/PR] --> F[select_tests_ci.py]
-        F --> G[Groq API]
+        F --> G[Gemini API]
         G --> H[pytest]
     end
     
@@ -449,7 +505,7 @@ Após este vídeo, você sabe:
 - [ ] Instalar e usar Ollama localmente
 - [ ] Fazer chamadas HTTP para LLMs
 - [ ] Integrar IA com Git (arquivos modificados)
-- [ ] Usar Groq API (grátis) no CI
+- [ ] Usar Gemini API (grátis) no CI
 - [ ] Criar GitHub Action com IA
 
 ---
@@ -459,7 +515,7 @@ Após este vídeo, você sabe:
 | Ambiente | Ferramenta | Custo | Velocidade |
 |----------|------------|-------|------------|
 | **Local** | Ollama | Grátis | ~2s |
-| **CI/CD** | Groq API | Grátis | ~1s |
+| **CI/CD** | Gemini API | Grátis | ~1s |
 
 ### Economia Real
 

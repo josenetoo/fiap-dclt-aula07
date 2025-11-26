@@ -115,7 +115,7 @@ aula07-ia-incident/
 ├── logs/
 │   └── incidents.log        # 📝 Histórico (criado automaticamente)
 ├── incident_handler.py      # 🤖 Orquestrador LOCAL (Ollama)
-├── incident_handler_ci.py   # 🤖 Orquestrador CI (Groq API)
+├── incident_handler_ci.py   # 🤖 Orquestrador CI (Gemini API)
 └── requirements.txt
 ```
 
@@ -124,29 +124,36 @@ aula07-ia-incident/
 | Aspecto | Local | Pipeline (CI) |
 |---------|-------|---------------|
 | **Script** | `incident_handler.py` | `incident_handler_ci.py` |
-| **IA** | Ollama (localhost) | Groq API (cloud) |
+| **IA** | Ollama (localhost) | Gemini API (cloud) |
 | **Quando usa** | Desenvolvimento | GitHub Actions |
-| **Requisito** | Ollama rodando | `GROQ_API_KEY` secret |
+| **Requisito** | Ollama rodando | `GEMINI_API_KEY` secret |
 
-### Passo 1: Entrar no projeto
+### Passo 1: Entrar no projeto e configurar ambiente Python
 
 ```bash
 cd aula07-ia-incident
+```
 
-# Criar ambiente virtual (recomendado)
+**Criar e ativar ambiente virtual:**
+
+**Mac/Linux:**
+```bash
 python3 -m venv venv
-
-# Ativar ambiente virtual
-# Mac/Linux:
 source venv/bin/activate
-# Windows:
-# venv\Scripts\activate
+```
 
-# Instalar dependências
+**Windows (PowerShell):**
+```powershell
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Instalar dependências:**
+```bash
 pip install -r requirements.txt
 ```
 
-> 💡 **Nota:** No macOS, use `python3` e `pip3` se não estiver usando ambiente virtual.
+> 💡 **Dica:** Quando o ambiente virtual está ativo, você verá `(venv)` no início do terminal.
 
 ### Passo 2: Ver um alerta de exemplo
 
@@ -506,10 +513,10 @@ jobs:
       
       - run: pip install requests
       
-      # Usa versão CI com Groq API (não Ollama!)
+      # Usa versão CI com Gemini API (não Ollama!)
       - name: 🤖 Executar resposta automática
         env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           cd aula07-ia-incident
           python incident_handler_ci.py ${{ inputs.alert_file }}
@@ -522,7 +529,9 @@ jobs:
             // Criar issue com resultado do incidente
 ```
 
-> 💡 **Importante:** No CI usamos `incident_handler_ci.py` (Groq), não a versão local!
+> 💡 **Importante:** No CI usamos `incident_handler_ci.py` (Gemini), não a versão local!
+>
+> **Alternativa:** Se preferir usar Groq, troque para `GROQ_API_KEY` e ajuste `USE_GEMINI = False` no script.
 
 ---
 
