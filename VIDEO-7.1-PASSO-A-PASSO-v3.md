@@ -440,7 +440,11 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  workflow_dispatch:  # Permite rodar manualmente pelo GitHub
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
   smart-tests:

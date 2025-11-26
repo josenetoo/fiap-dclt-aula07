@@ -505,6 +505,10 @@ on:
         required: true
         default: 'alerts/high_memory.json'
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   respond:
     runs-on: ubuntu-latest
