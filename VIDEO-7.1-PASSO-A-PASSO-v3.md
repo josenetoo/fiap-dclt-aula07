@@ -282,7 +282,11 @@ git commit -m "Modificar calculadora"
 ### Passo 8: Rodar o seletor com IA
 
 ```bash
+# Com ambiente virtual ativo (recomendado):
 python select_tests.py
+
+# OU sem ambiente virtual:
+python3 select_tests.py
 ```
 
 **Saída esperada:**
@@ -360,15 +364,24 @@ sequenceDiagram
 
 **Mac/Linux:**
 ```bash
+# Ativar ambiente virtual (se não estiver ativo)
+source venv/bin/activate
+
 # Configurar a chave
 export GEMINI_API_KEY="sua_chave_aqui"
 
 # Rodar versão CI
 python select_tests_ci.py
+
+# OU sem ambiente virtual:
+GEMINI_API_KEY="sua_chave_aqui" python3 select_tests_ci.py
 ```
 
 **Windows (PowerShell):**
 ```powershell
+# Ativar ambiente virtual (se não estiver ativo)
+venv\Scripts\activate
+
 # Configurar a chave
 $env:GEMINI_API_KEY="sua_chave_aqui"
 

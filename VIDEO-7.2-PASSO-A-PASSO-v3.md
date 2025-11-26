@@ -261,15 +261,24 @@ graph LR
 
 **Mac/Linux:**
 ```bash
+# Ativar ambiente virtual (se não estiver ativo)
+source venv/bin/activate
+
 # Configurar chave (mesma do vídeo 7.1)
 export GEMINI_API_KEY="sua_chave_aqui"
 
 # Rodar versão CI
 python analyze_logs_ci.py
+
+# OU sem ambiente virtual:
+GEMINI_API_KEY="sua_chave_aqui" python3 analyze_logs_ci.py
 ```
 
 **Windows (PowerShell):**
 ```powershell
+# Ativar ambiente virtual (se não estiver ativo)
+venv\Scripts\activate
+
 # Configurar chave (mesma do vídeo 7.1)
 $env:GEMINI_API_KEY="sua_chave_aqui"
 

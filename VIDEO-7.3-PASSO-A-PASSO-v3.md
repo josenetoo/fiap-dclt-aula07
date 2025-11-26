@@ -397,15 +397,24 @@ Get-Content logs/incidents.log
 
 **Mac/Linux:**
 ```bash
+# Ativar ambiente virtual (se não estiver ativo)
+source venv/bin/activate
+
 # Configurar chave (mesma do vídeo 7.1 e 7.2)
 export GEMINI_API_KEY="sua_chave_aqui"
 
 # Rodar versão CI
 python incident_handler_ci.py alerts/high_memory.json
+
+# OU sem ambiente virtual:
+GEMINI_API_KEY="sua_chave_aqui" python3 incident_handler_ci.py alerts/high_memory.json
 ```
 
 **Windows (PowerShell):**
 ```powershell
+# Ativar ambiente virtual (se não estiver ativo)
+venv\Scripts\activate
+
 # Configurar chave (mesma do vídeo 7.1 e 7.2)
 $env:GEMINI_API_KEY="sua_chave_aqui"
 

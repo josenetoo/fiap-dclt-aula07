@@ -23,6 +23,7 @@ import requests
 import os
 import sys
 import json
+from pathlib import Path
 
 
 # ============================================================
@@ -98,7 +99,7 @@ Responda APENAS os caminhos dos arquivos de teste, um por linha, sem explicaçã
 
     try:
         response = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}",
+            f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
             headers={"Content-Type": "application/json"},
             json={
                 "contents": [{
@@ -180,6 +181,31 @@ Responda APENAS os caminhos dos arquivos de teste, um por linha, sem explicaçã
 # ============================================================
 
 
+def filter_valid_tests(suggestion: str) -> list:
+    """
+    Filtra a sugestão da IA para manter apenas arquivos de teste válidos.
+    """
+    valid_tests = []
+    
+    for line in suggestion.split('\n'):
+        line = line.strip()
+        # Ignorar linhas vazias ou que não são arquivos de teste
+        if not line:
+            continue
+        if not line.startswith('tests/'):
+            continue
+        if not line.endswith('.py'):
+            continue
+        if 'pytest' in line.lower():
+            continue
+        
+        # Verificar se o arquivo existe
+        if Path(line).exists():
+            valid_tests.append(line)
+    
+    return list(set(valid_tests))
+
+
 def main():
     """Função principal para CI."""
     api_name = "Gemini" if USE_GEMINI else "Groq"
@@ -198,20 +224,28 @@ def main():
     print(f"\n🤖 Consultando {api_name} API...")
     
     if USE_GEMINI:
-        tests = ask_gemini(changed_files)
+        suggestion = ask_gemini(changed_files)
     else:
         # Descomente a função ask_groq acima para usar
-        # tests = ask_groq(changed_files)
+        # suggestion = ask_groq(changed_files)
         print("❌ Groq não está habilitado. Descomente a função ask_groq.")
         sys.exit(1)
     
-    # 3. Mostrar resultado
-    print(f"\n✅ Testes sugeridos:")
-    print(tests)
+    # 3. Filtrar apenas testes válidos
+    valid_tests = filter_valid_tests(suggestion)
     
-    # 4. Salvar para uso no workflow
+    if not valid_tests:
+        print("\n⚠️  Nenhum teste válido sugerido.")
+        valid_tests = []
+    
+    # 4. Mostrar resultado
+    print(f"\n✅ Testes a executar:")
+    for test in valid_tests:
+        print(f"  {test}")
+    
+    # 5. Salvar para uso no workflow
     with open("suggested_tests.txt", "w") as f:
-        f.write(tests)
+        f.write("\n".join(valid_tests))
     
     print("\n📄 Salvo em: suggested_tests.txt")
 
