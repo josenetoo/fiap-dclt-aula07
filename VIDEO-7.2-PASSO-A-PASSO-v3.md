@@ -371,22 +371,29 @@ jobs:
           cd aula07-ia-logs
           python analyze_logs_ci.py
       
-      - name: 📋 Ver resultado da análise
+      - name: 📊 Gerar Sumário
+        if: always()
         run: |
           cd aula07-ia-logs
-          echo "Resultado da análise:"
-          cat log-analysis.json
+          echo "## 🤖 AI Log Analysis - Sumário" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Resultado da Análise:" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat log-analysis.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
       
       - name: 🚨 Criar issue se crítico
         if: failure()
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+            const analysis = JSON.parse(fs.readFileSync('aula07-ia-logs/log-analysis.json', 'utf8'));
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: '🚨 Problema crítico detectado nos logs',
-              body: 'A análise de logs detectou um problema crítico. Verifique o workflow.'
+              body: `**Status:** ${analysis.status}\n**Problema:** ${analysis.main_issue}\n**Recomendação:** ${analysis.recommendation}`
             })
 EOF
 ```

@@ -30,17 +30,30 @@ jobs:
           cd aula07-ia-testes
           python select_tests_ci.py
       
-      - name: 📋 Ver testes sugeridos
-        run: |
-          cd aula07-ia-testes
-          echo "Testes sugeridos:"
-          cat suggested_tests.txt
-      
       - name: 🧪 Rodar testes selecionados
+        id: tests
         run: |
           cd aula07-ia-testes
           if [ -s suggested_tests.txt ]; then
-            pytest $(cat suggested_tests.txt) -v
+            pytest $(cat suggested_tests.txt) -v --tb=short 2>&1 | tee test-results.txt
+            echo "tests_run=true" >> $GITHUB_OUTPUT
           else
-            echo "Nenhum teste para rodar"
+            echo "Nenhum teste para rodar" > test-results.txt
+            echo "tests_run=false" >> $GITHUB_OUTPUT
           fi
+      
+      - name: 📊 Gerar Sumário
+        if: always()
+        run: |
+          cd aula07-ia-testes
+          echo "## 🤖 AI Test Selection - Sumário" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Testes Selecionados pela IA:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat suggested_tests.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🧪 Resultado dos Testes:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat test-results.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY

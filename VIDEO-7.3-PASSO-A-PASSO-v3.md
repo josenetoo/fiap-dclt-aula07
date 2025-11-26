@@ -524,14 +524,26 @@ jobs:
           cd aula07-ia-incident
           python incident_handler_ci.py ${{ inputs.alert_file }}
       
-      - name: 📋 Ver resultado do incidente
+      - name: 📊 Gerar Sumário
+        if: always()
         run: |
           cd aula07-ia-incident
-          echo "Resultado do incidente:"
-          cat incident-result.json
-          echo ""
-          echo "Histórico de incidentes:"
-          cat logs/incidents.log
+          echo "## 🤖 AI Incident Response - Sumário" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🚨 Alerta Processado:" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat ${{ inputs.alert_file }} >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Resultado do Incidente:" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat incident-result.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📜 Histórico:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -5 logs/incidents.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
       
       - name: 📝 Criar issue com resultado
         if: always()
