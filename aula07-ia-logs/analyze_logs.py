@@ -70,6 +70,7 @@ LOGS:
 """
 
     try:
+        # Timeout maior para modelos mais lentos (120s)
         response = requests.post(
             "http://localhost:11434/api/generate",
             json={
@@ -77,7 +78,7 @@ LOGS:
                 "prompt": prompt,
                 "stream": False
             },
-            timeout=60
+            timeout=120
         )
         response.raise_for_status()
         return response.json()["response"]
@@ -92,7 +93,13 @@ LOGS:
         sys.exit(1)
         
     except requests.exceptions.Timeout:
-        print("❌ Erro: Timeout na resposta do Ollama")
+        print("❌ Erro: Timeout na resposta do Ollama (>120s)")
+        print("")
+        print("Possíveis soluções:")
+        print("  1. Verifique se o Ollama está rodando: ollama serve")
+        print("  2. Tente um modelo menor: ollama pull llama3.2:1b")
+        print("  3. Reinicie o Ollama e tente novamente")
+        print("")
         sys.exit(1)
 
 
@@ -146,6 +153,7 @@ def main():
     
     # 3. Análise com IA
     print("\n🤖 Analisando com IA...")
+    print("   ⏳ Aguarde, isso pode levar até 2 minutos...")
     print("-" * 60)
     
     analysis = analyze_with_ollama(logs)
