@@ -133,9 +133,20 @@ aula07-ia-incident/
 ```bash
 cd aula07-ia-incident
 
+# Criar ambiente virtual (recomendado)
+python3 -m venv venv
+
+# Ativar ambiente virtual
+# Mac/Linux:
+source venv/bin/activate
+# Windows:
+# venv\Scripts\activate
+
 # Instalar dependências
 pip install -r requirements.txt
 ```
+
+> 💡 **Nota:** No macOS, use `python3` e `pip3` se não estiver usando ambiente virtual.
 
 ### Passo 2: Ver um alerta de exemplo
 

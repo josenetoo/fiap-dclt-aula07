@@ -9,7 +9,10 @@ Uso:
     python analyze_logs.py
 
 Pré-requisitos:
-    1. Ollama instalado: curl -fsSL https://ollama.com/install.sh | sh
+    1. Ollama instalado:
+       - macOS: brew install ollama (ou https://ollama.com/download/mac)
+       - Linux: curl -fsSL https://ollama.com/install.sh | sh
+       - Windows: https://ollama.com/download/windows
     2. Modelo baixado: ollama pull llama3.2
     3. Ollama rodando: ollama serve
 """

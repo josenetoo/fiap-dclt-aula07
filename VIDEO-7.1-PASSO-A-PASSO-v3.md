@@ -130,12 +130,22 @@ graph LR
 
 ### Passo 1: Instalar Ollama
 
+**macOS:**
 ```bash
-# macOS/Linux - Um comando!
-curl -fsSL https://ollama.com/install.sh | sh
+# Baixar e instalar via Homebrew
+brew install ollama
 
-# Windows - Baixar instalador em:
-# https://ollama.com/download
+# OU baixar instalador em: https://ollama.com/download/mac
+```
+
+**Linux:**
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+**Windows:**
+```
+Baixar instalador em: https://ollama.com/download/windows
 ```
 
 ### Passo 2: Baixar um modelo leve
@@ -195,9 +205,20 @@ aula07-ia-testes/
 ```bash
 cd aula07-ia-testes
 
+# Criar ambiente virtual (recomendado)
+python3 -m venv venv
+
+# Ativar ambiente virtual
+# Mac/Linux:
+source venv/bin/activate
+# Windows:
+# venv\Scripts\activate
+
 # Instalar dependências
 pip install -r requirements.txt
 ```
+
+> 💡 **Nota:** No macOS, use `python3` e `pip3` se não estiver usando ambiente virtual.
 
 ### Passo 5: Rodar os testes (modo tradicional)
 

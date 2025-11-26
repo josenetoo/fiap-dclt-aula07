@@ -37,7 +37,9 @@ pytest tests/ -v
 
 ```bash
 # Instalar Ollama
-curl -fsSL https://ollama.com/install.sh | sh
+# macOS: brew install ollama (ou baixar em https://ollama.com/download/mac)
+# Linux: curl -fsSL https://ollama.com/install.sh | sh
+# Windows: https://ollama.com/download/windows
 
 # Baixar modelo
 ollama pull llama3.2
