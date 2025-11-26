@@ -36,4 +36,4 @@ def validar_email(email: str) -> bool:
     """
     return "@" in email and "." in email
 
-    #Nova Feature v2
+    #Nova Feature v4
