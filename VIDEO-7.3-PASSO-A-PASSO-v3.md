@@ -61,8 +61,8 @@ graph LR
     E --> G
     F --> G
     
-    style B fill:#10b981
-    style G fill:#22c55e
+    style B fill:#000000
+    style G fill:#000000
 ```
 
 ### 📊 Diagrama: Fluxo Detalhado
@@ -361,8 +361,8 @@ graph TB
     I --> K
     J --> K
     
-    style C fill:#10b981
-    style K fill:#22c55e
+    style C fill:#000000
+    style K fill:#000000
 ```
 
 ---
@@ -395,7 +395,7 @@ Get-Content logs/incidents.log
 
 ### Por que API na nuvem no CI?
 
-| Aspecto | Ollama no CI | Gemini/Groq API |
+| Aspecto | Ollama no CI | Gemini API |
 |---------|--------------|-----------------|
 | Download | 2GB por run ❌ | 0 ✅ |
 | Tempo | +10 min ❌ | +2 seg ✅ |
@@ -471,8 +471,8 @@ graph TB
         C2 --> D2[Runbook]
     end
     
-    style C1 fill:#10b981
-    style C2 fill:#3b82f6
+    style C1 fill:#000000
+    style C2 fill:#000000
 ```
 
 ---
@@ -600,9 +600,9 @@ graph TB
         H --> I[✅ Resolvido!]
     end
     
-    style C fill:#22c55e
-    style F fill:#f59e0b
-    style I fill:#22c55e
+    style C fill:#000000
+    style F fill:#000000
+    style I fill:#000000
 ```
 
 ---
@@ -623,8 +623,8 @@ Após este vídeo, você sabe:
 
 | Vídeo | Tema | Ferramenta | Resultado |
 |-------|------|------------|-----------|
-| **7.1** | Testes | Ollama/Groq | 90% menos testes |
-| **7.2** | Detecção | Ollama/Groq | Problemas em 10s |
+| **7.1** | Testes | Ollama/Gemini | 90% menos testes |
+| **7.2** | Detecção | Ollama/Gemini | Problemas em 10s |
 | **7.3** | Resposta | Ollama + Runbooks | MTTR: 35min → 1min |
 
 ### Benefício Real

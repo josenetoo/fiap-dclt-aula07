@@ -6,7 +6,7 @@
 |------|---------|
 | **Duração** | ~15 minutos |
 | **Tema** | AIOps - Análise de logs com IA |
-| **Ferramentas** | Ollama (local) + Groq API (CI) |
+| **Ferramentas** | Ollama (local) + Gemini API (CI) |
 | **Custo** | $0 (100% gratuito) |
 | **Pré-requisito** | Vídeo 7.1 concluído |
 
@@ -77,7 +77,7 @@ sequenceDiagram
     participant App as Aplicação
     participant Log as Arquivo de Log
     participant Script as analyze_logs.py
-    participant IA as Ollama/Groq
+    participant IA as Ollama/Gemini
     participant Alert as Alerta
     
     App->>Log: Escreve logs
@@ -93,7 +93,7 @@ sequenceDiagram
 | Ferramenta | Onde Usa | Por quê? |
 |------------|----------|----------|
 | **Ollama** | Local (desenvolvimento) | IA grátis, roda offline |
-| **Groq API** | CI/CD (GitHub Actions) | API grátis, resposta rápida |
+| **Gemini API** | CI/CD (GitHub Actions) | API grátis, resposta rápida |
 
 ---
 
@@ -108,7 +108,7 @@ aula07-ia-logs/
 ├── logs/
 │   └── app.log              # Logs de exemplo (com erros!)
 ├── analyze_logs.py          # 🤖 Analisador com Ollama (LOCAL)
-├── analyze_logs_ci.py       # 🤖 Analisador com Groq (CI)
+├── analyze_logs_ci.py       # 🤖 Analisador com Gemini (CI)
 ├── requirements.txt
 └── README.md
 ```
@@ -249,7 +249,7 @@ graph LR
     D --> E[IA analisa padrões]
     E --> F[Retorna diagnóstico]
     
-    style D fill:#10b981
+    style D fill:#000000
 ```
 
 ---
@@ -258,7 +258,7 @@ graph LR
 
 ### Por que API na nuvem no CI?
 
-| Aspecto | Ollama no CI | Gemini/Groq API |
+| Aspecto | Ollama no CI | Gemini API |
 |---------|--------------|-----------------|
 | Download | 2GB por run ❌ | 0 ✅ |
 | Tempo | +10 min ❌ | +2 seg ✅ |
@@ -443,9 +443,9 @@ graph TB
         H -->|OK| J[Passar]
     end
     
-    style C fill:#10b981
-    style G fill:#3b82f6
-    style I fill:#ef4444
+    style C fill:#000000
+    style G fill:#000000
+    style I fill:#000000
 ```
 
 ---
@@ -457,7 +457,7 @@ Após este vídeo, você sabe:
 - [ ] O que é AIOps (IA + Operações)
 - [ ] Analisar logs com IA local (Ollama)
 - [ ] Detectar padrões de erro automaticamente
-- [ ] Usar Groq API para análise estruturada (JSON)
+- [ ] Usar Gemini API para análise estruturada (JSON)
 - [ ] Integrar análise de logs no CI/CD
 
 ---
@@ -469,7 +469,7 @@ Após este vídeo, você sabe:
 | **Tempo** | 30 min lendo logs | 10 segundos |
 | **Precisão** | Depende do humano | Consistente |
 | **Escala** | Não escala | 10.000 linhas = mesmo tempo |
-| **Custo** | Hora do engenheiro | $0 (Ollama/Groq) |
+| **Custo** | Hora do engenheiro | $0 (Ollama/Gemini) |
 
 ### Benefício Real
 
@@ -485,7 +485,8 @@ MTTR reduzido em 90%! 🚀
 ## 🔗 Links Úteis
 
 - **Ollama**: https://ollama.com
-- **Groq Console**: https://console.groq.com
+- **Gemini Console**: https://aistudio.google.com
+- **Groq Console** (alternativa): https://console.groq.com
 - **AIOps (Gartner)**: https://www.gartner.com/en/information-technology/glossary/aiops
 
 ---

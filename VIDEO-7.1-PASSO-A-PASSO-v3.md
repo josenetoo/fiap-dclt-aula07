@@ -6,7 +6,7 @@
 |------|---------|
 | **Duração** | ~15 minutos |
 | **Tema** | IA para seleção inteligente de testes |
-| **Ferramentas** | Ollama (local) + Groq API (CI) |
+| **Ferramentas** | Ollama (local) + Gemini API (CI) |
 | **Custo** | $0 (100% gratuito) |
 | **Pré-requisito** | Python 3.9+, Git |
 
@@ -70,7 +70,7 @@ graph TB
 sequenceDiagram
     participant Dev as Desenvolvedor
     participant Git as Git
-    participant IA as Ollama/Groq
+    participant IA as Ollama/Gemini
     participant CI as CI/CD
     
     Dev->>Git: git commit (modifica calculadora.py)
@@ -86,7 +86,7 @@ sequenceDiagram
 | Ferramenta | Onde Usa | Por quê? |
 |------------|----------|----------|
 | **Ollama** | Local (desenvolvimento) | IA grátis, roda offline |
-| **Groq API** | CI/CD (GitHub Actions) | API grátis, sem download |
+| **Gemini API** | CI/CD (GitHub Actions) | API grátis, sem download |
 
 ### Por que duas ferramentas?
 
@@ -98,16 +98,16 @@ graph LR
     end
     
     subgraph "CI/CD"
-        D[Groq API] --> E[Modelo na nuvem]
+        D[Gemini API] --> E[Modelo na nuvem]
         E --> F[Sem download]
     end
     
-    style A fill:#10b981
-    style D fill:#3b82f6
+    style A fill:#000000
+    style D fill:#000000
 ```
 
 - **Ollama no CI** = Baixar 2GB a cada run ❌
-- **Groq no CI** = Chamada HTTP de 1 segundo ✅
+- **Gemini no CI** = Chamada HTTP de 1 segundo ✅
 
 ---
 
@@ -119,7 +119,7 @@ graph LR
     B --> C[🎯 Sugere Testes]
     C --> D[✅ Roda só o necessário]
     
-    style B fill:#10b981
+    style B fill:#000000
 ```
 
 **Benefício:** Em vez de rodar 100 testes (30 min), roda só 10 relevantes (3 min).
@@ -196,7 +196,7 @@ aula07-ia-testes/
 │   ├── test_calculadora.py # Testes da calculadora
 │   └── test_usuario.py     # Testes do usuário
 ├── select_tests.py         # 🤖 Seletor com Ollama (LOCAL)
-├── select_tests_ci.py      # 🤖 Seletor com Groq (CI)
+├── select_tests_ci.py      # 🤖 Seletor com Gemini (CI)
 └── requirements.txt
 ```
 
@@ -352,7 +352,7 @@ sequenceDiagram
 
 ### Por que API na nuvem em vez de Ollama no CI?
 
-| Aspecto | Ollama no CI | Gemini/Groq API |
+| Aspecto | Ollama no CI | Gemini API |
 |---------|--------------|-----------------|
 | Download | 2GB por run ❌ | 0 ✅ |
 | Tempo | +10 min ❌ | +2 seg ✅ |
@@ -531,8 +531,8 @@ graph TB
         G --> H[pytest]
     end
     
-    style C fill:#10b981
-    style G fill:#3b82f6
+    style C fill:#000000
+    style G fill:#000000
 ```
 
 ---
@@ -570,8 +570,8 @@ Economia: 90% do tempo! 🚀
 ## 🔗 Links Úteis
 
 - **Ollama**: https://ollama.com
-- **Groq Console**: https://console.groq.com
-- **Modelos Groq**: https://console.groq.com/docs/models
+- **Gemini Console**: https://aistudio.google.com
+- **Groq Console** (alternativa): https://console.groq.com
 
 ---
 
